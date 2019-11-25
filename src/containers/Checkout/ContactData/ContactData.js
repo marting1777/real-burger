@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
-import classes from './ContactData.css'
-import Button from '../../../components/UI/Button/Button'
-import axios from '../../../axios-orders'
-import Spinner from '../../../components/UI/Spinner/Spinner'
-import Input from '../../../components/UI/Input/Input'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import classes from './ContactData.css';
+import Button from '../../../components/UI/Button/Button';
+import axios from '../../../axios-orders';
+import Spinner from '../../../components/UI/Spinner/Spinner';
+import Input from '../../../components/UI/Input/Input';
 
 class ContactData extends Component {
 
@@ -104,7 +105,7 @@ class ContactData extends Component {
         console.log(formData)
 
         const order = {
-            ingredients: this.props.ingredients,
+            ingredients: this.props.ings,
             price: this.props.price,
             orderData: formData
         }
@@ -182,19 +183,26 @@ class ContactData extends Component {
                     clicked={this.orderHandler}
                     disabled={!this.state.formIsValid}>ORDER</Button>
             </form>
-        )
+        );
 
         if (this.state.loading) {
             form = <Spinner />
-        }
+        };
 
         return (
             <div className={classes.ContactData}>
                 <h4>Enter your Contact Data</h4>
                 {form}
             </div>
-        )
-    }
+        );
+    };
 }
 
-export default ContactData
+const mapStateToProps = state => {
+    return {
+        ings: state.ingredients,
+        price: state.totalPrice,
+    };
+};
+
+export default connect(mapStateToProps)(ContactData);
