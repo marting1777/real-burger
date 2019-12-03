@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import Order from '../../components/Order/Order'
-import axios from '../../axios-orders'
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
+import React, { Component } from 'react';
+import Order from '../../components/Order/Order';
+import axios from '../../axios-orders';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 class Orders extends Component {
 
     state = {
         orders: [],
-        loading: true
+        loading: true,
     }
 
     componentDidMount() {
@@ -18,13 +18,13 @@ class Orders extends Component {
                     fetchedOrders.push({
                         ...res.data[key],
                         id: key
-                    })
+                    });
                 }
-                this.setState({ loading: false, orders: fetchedOrders })
+                this.setState({ loading: false, orders: fetchedOrders });
             })
             .catch(err => {
-                this.setState({ loading: false })
-            })
+                this.setState({ loading: false });
+            });
     }
 
     render () {
@@ -38,8 +38,8 @@ class Orders extends Component {
                                 />
                 })}
             </div>
-        )
+        );
     }
 }
 
-export default withErrorHandler(Orders, axios)
+export default withErrorHandler(Orders, axios);

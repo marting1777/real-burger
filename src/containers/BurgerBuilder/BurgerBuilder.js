@@ -6,18 +6,18 @@ import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 import Modal from '../../components/UI/Modal/Modal'
 import OrderSummery from '../../components/Burger/OrderSummery/OrderSummery'
-import Spinner from '../../components/UI/Spinner/Spinner'
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
+import Spinner from '../../components/UI/Spinner/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
-import axios from '../../axios-orders'
-import * as actionTypes from '../../store/actions'
+import axios from '../../axios-orders';
+import * as actionTypes from '../../store/actions';
 
 class BurgerBuilder extends Component {
 
     state = {
         purchasing: false,
         loading: false,
-        error: false
+        error: false,
     }
 
     // componentDidMount () {
@@ -37,16 +37,16 @@ class BurgerBuilder extends Component {
             })
             .reduce((sum, el) => {
                 return sum + el
-            }, 0)
+            }, 0);
         return sum > 0;
     }
 
     purchaseHandler = () => {
-        this.setState({purchasing: true})
+        this.setState({purchasing: true});
     }
 
     purchaseCancelHandler = () => {
-        this.setState({purchasing: false})
+        this.setState({purchasing: false});
     }
 
     purchaseContinueHandler = () => {
@@ -55,15 +55,15 @@ class BurgerBuilder extends Component {
 
     render () {
         const disabledInfo = {
-            ...this.props.ings
+            ...this.props.ings,
         }
         
         for (let key in disabledInfo) {
-            disabledInfo[key] = disabledInfo[key] <= 0
+            disabledInfo[key] = disabledInfo[key] <= 0;
         }
         
-        let orderSummery = null
-        let burger = this.state.error ? <p style={{textAlign: 'center', color: 'red'}}>Ingredients can´t be loaded</p> : <Spinner />
+        let orderSummery = null;
+        let burger = this.state.error ? <p style={{textAlign: 'center', color: 'red'}}>Ingredients can´t be loaded</p> : <Spinner />;
         if (this.props.ings) {
             burger = (
                 <Aux>
@@ -77,7 +77,7 @@ class BurgerBuilder extends Component {
                         ordered={this.purchaseHandler}
                     />
                 </Aux>
-            )
+            );
             orderSummery = <OrderSummery 
                 ingredients={this.props.ings}
                 price={this.props.price}
@@ -86,7 +86,7 @@ class BurgerBuilder extends Component {
         }
 
         if (this.state.loading) {
-            orderSummery = <Spinner />
+            orderSummery = <Spinner />;
         }
 
         return (
@@ -96,7 +96,7 @@ class BurgerBuilder extends Component {
                 </Modal>
                 {burger}
             </Aux>
-        )
+        );
     }
 }
 

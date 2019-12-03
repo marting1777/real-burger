@@ -8,11 +8,11 @@ import ContactData from './ContactData/ContactData';
 class Checkout extends Component {
 
     checkoutCancelledHandler = () => {
-        this.props.history.goBack()
+        this.props.history.goBack();
     }
 
     checkoutContinuedHandler = () => {
-        this.props.history.replace('/checkout/contact-data')
+        this.props.history.replace('/checkout/contact-data');
     }
 
     render () {
@@ -33,7 +33,7 @@ class Checkout extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients
+        ings: state.ingredients,
     };
 };
 
