@@ -11,6 +11,7 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 import axios from '../../axios-orders';
 import { initIngredients, addIngredient, removeIngredient } from '../../store/actions/burgerBuilder';
+import { purchaseInit } from '../../store/actions/order';
 
 class BurgerBuilder extends Component {
 
@@ -42,6 +43,7 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
+        this.props.onInitPurchase();
         this.props.history.push('/checkout');
     }
 
@@ -101,6 +103,7 @@ const mapDispatchToProps = dispatch => {
         onInitIngredients: () => dispatch(initIngredients()),
         onIngredientAdded: ingName => dispatch(addIngredient(ingName)),
         onIngredientRemoved: ingName => dispatch(removeIngredient(ingName)),
+        onInitPurchase: () => dispatch(purchaseInit()),
     };
 };
 
