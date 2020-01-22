@@ -12,6 +12,7 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-orders';
 import { initIngredients, addIngredient, removeIngredient } from '../../store/actions/burgerBuilder';
 import { purchaseInit } from '../../store/actions/order';
+import { setAuthRedirectPath } from '../../store/actions/auth';
 
 class BurgerBuilder extends Component {
 
@@ -35,7 +36,12 @@ class BurgerBuilder extends Component {
     }
 
     purchaseHandler = () => {
-        this.setState({purchasing: true});
+        if (this.props.isAuthenticated) {
+            this.setState({purchasing: true});
+        } else {
+            this.props.onSetAuthRedirectPath('/checkout');
+            this.props.history.push('/auth');
+        }
     }
 
     purchaseCancelHandler = () => {
@@ -68,6 +74,7 @@ class BurgerBuilder extends Component {
                         disabled={disabledInfo}
                         purchasable={this.updatePurchaseState(this.props.ings)}
                         price={this.props.price.toFixed(2)}
+                        isAuth={this.props.isAuthenticated}
                         ordered={this.purchaseHandler}
                     />
                 </Aux>
@@ -95,6 +102,7 @@ const mapStateToProps = state => {
         ings: state.burger.ingredients,
         price: state.burger.totalPrice,
         error: state.burger.error,
+        isAuthenticated: state.auth.token !== null,
     };
 };
 
@@ -104,6 +112,7 @@ const mapDispatchToProps = dispatch => {
         onIngredientAdded: ingName => dispatch(addIngredient(ingName)),
         onIngredientRemoved: ingName => dispatch(removeIngredient(ingName)),
         onInitPurchase: () => dispatch(purchaseInit()),
+        onSetAuthRedirectPath: path => dispatch(setAuthRedirectPath(path)),
     };
 };
 
