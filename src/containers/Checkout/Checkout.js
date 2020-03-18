@@ -1,40 +1,34 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import CheckoutSummery from '../../components/Order/CheckoutSummery/CheckoutSummery';
 import ContactData from './ContactData/ContactData';
 
-class Checkout extends Component {
+const Checkout = props => {
 
-    checkoutCancelledHandler = () => {
-        this.props.history.goBack();
+    const checkoutCancelledHandler = () => props.history.goBack();
+
+    const checkoutContinuedHandler = () => props.history.replace('/checkout/contact-data');
+
+    let summery = <Redirect to="/"/>;
+    if (props.ings) {
+        const purchasedRedirect = props.purchased ? <Redirect to="/" /> : null;
+        summery = (
+            <div>
+                {purchasedRedirect}
+                <CheckoutSummery 
+                    ingredients={props.ings}
+                    checkoutCancelled={checkoutCancelledHandler}
+                    checkoutContinued={checkoutContinuedHandler}/>
+                <Route 
+                    path={props.match.path + '/contact-data'} 
+                    component={ContactData} />
+            </div>
+        );
     }
 
-    checkoutContinuedHandler = () => {
-        this.props.history.replace('/checkout/contact-data');
-    }
-
-    render () {
-        let summery = <Redirect to="/"/>;
-        if (this.props.ings) {
-            const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
-            summery = (
-                <div>
-                    {purchasedRedirect}
-                    <CheckoutSummery 
-                        ingredients={this.props.ings}
-                        checkoutCancelled={this.checkoutCancelledHandler}
-                        checkoutContinued={this.checkoutContinuedHandler}/>
-                    <Route 
-                        path={this.props.match.path + '/contact-data'} 
-                        component={ContactData} />
-                </div>
-            );
-        }
-
-        return summery;
-    }
+    return summery;
 }
 
 const mapStateToProps = state => {
