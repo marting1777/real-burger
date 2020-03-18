@@ -4,10 +4,11 @@ import { logout } from '../../../store/actions/auth';
 import { connect } from 'react-redux';
 
 const Logout = props => {
-
+    const { onLogout } = props;
+    
     useEffect(() => {
-        props.onLogout();
-    }, []);
+        onLogout();
+    }, [onLogout]);
 
     return <Redirect to="/" />;
 }
